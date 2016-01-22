@@ -1,0 +1,7 @@
+This script is intended to be set as a scheduled task and ran from a Windows server that has access to the Horizon View
+connection servers.
+
+Please be sure to modify any variables that are surrounded in double <<brackets>>, or please feel free to modify and set
+as input params.
+
+Visit my blog on http://scriptdeez.wordpress.com for more!
