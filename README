@@ -1,7 +1,17 @@
-This script is intended to be set as a scheduled task and ran from a Windows server that has access to the Horizon View
-connection servers.
+# VMware View Monitor Scripts
 
-Please be sure to modify any variables that are surrounded in double <<brackets>>, or please feel free to modify and set
-as input params.
+## Overview
+Windows Powershell scripts intended to run on a schedule to monitor VMware Horizon View for provisioning
+issues and collect various stats that are missing in Horizon View versions 5 through 6.
 
-Visit my blog on http://scriptdeez.wordpress.com for more!
+## Pool Statistics
+pool-stats.ps1  collects statistics on VMs within selected Horizon View pools. Results are stored in XML format and can
+trigger an email report if desired.
+
+## Pool Provisioning Alert
+pool-provision-alert.ps1 monitors a selected Horizon View pool for issues with provisioning and sends an email alert when
+new events are triggered.
+
+## Usage
+Store the scripts on a Windows host that has access to the Horizon View connection server(s). Run the scripts as scheduled
+tasks with provided parameters. Make sure the host has access to an email relay for alerting.

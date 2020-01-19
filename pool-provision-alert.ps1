@@ -7,14 +7,19 @@
 # Usage: Use this script to check whether any pools are in a non-provisioning
 # state and send an email alert with a list of errors
 #
-# << Fill in variables for your environment or this will not work >>
 ############################################################################
 
 #Import Quest AD module for LDAP queries
 Import-Module -Name "C:\Program Files\Quest Software\Management Shell for AD\Quest.ActiveRoles.ArsPowerShellSnapIn.dll"
 
+$EmailFrom = Read-Host -Prompt 'Email From: '
+$EmailTo = Read-Host -Prompt 'Email To: '
+$LDAPHost = Read-Host -Prompt 'Connection Server: '
+$SMTPSRV = Read-Host -Prompt 'Email Relay Server: '
+$EmailSubject = "VIEW POOL - PROVISION ERROR"
+$MyReport = "The following Pools have stopped provisioning due to one or more errors: `n`n" + $list
 # Specify the LDAP path to bind to, here the Pools OU (Server Group)
-$LDAPPath = 'LDAP://<<CONNECTION SERVER>>:389/OU=Server Groups,DC=vdi,DC=vmware,DC=int'
+$LDAPPath = "LDAP://$LDAPHost:389/OU=Server Groups,DC=vdi,DC=vmware,DC=int"
 $LDAPEntry = New-Object DirectoryServices.DirectoryEntry $LDAPPath
 
 # Create a selector and start searching from the path specified in $LDAPPath
@@ -137,13 +142,6 @@ foreach ($fail in $pool_error) {
 	$exc++
 }
 
-#<< Fill in variables for your environment or this will not work >>
-$EmailFrom = <<FROM EMAIL>>
-$EmailSubject = "VIEW POOL - PROVISION ERROR"
-$SMTPSRV = <<SMTP SERVER>>
-$MyReport = "The following Pools have stopped provisioning due to one or more errors: `n`n" + $list
-
-$EmailTo = <<TO EMAIL Seperated by commas>>
 if ($send -ne "0"){send-Mailmessage -To $EmailTo -From $EmailFrom -Subject $EmailSubject -SmtpServer $SMTPSRV -Body $MyReport}
 
 
